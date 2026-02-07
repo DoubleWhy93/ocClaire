@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allFiction = await getCollection('fiction');
+  const novels = allFiction.filter((f) => f.data.type === 'novel-meta');
+
+  return novels.map((novel) => {
+    const novelId = novel.id.replace(/\/_meta$/, '');
+    const chapters = allFiction
+      .filter((f) => f.data.type === 'chapter' && f.data.novel === novelId)
+      .sort((a, b) => a.data.order - b.data.order);
+
+    return {
+      params: { novelId },
+      props: { novel, chapters },
+    };
+  });
+}
+
+const { novel, chapters } = Astro.props;
+const { Content } = await render(novel);
+const novelId = novel.id.replace(/\/_meta$/, '');
+---
+
+<BaseLayout title={`${novel.data.type === 'novel-meta' ? novel.data.novelTitle : ''} — OC Showcase`}>
+  <div class="max-w-4xl mx-auto px-4 py-12">
+    {novel.data.type === 'novel-meta' && (
+      <>
+        <div class="mb-8">
+          <span class="text-xs font-medium text-accent-400 uppercase tracking-wider">{novel.data.status}</span>
+          <h1 class="text-4xl font-bold text-slate-100 mt-2">{novel.data.novelTitle}</h1>
+          <p class="text-lg text-slate-400 mt-3">{novel.data.synopsis}</p>
+        </div>
+
+        <div class="prose-fiction mb-12">
+          <Content />
+        </div>
+
+        <!-- Chapter list -->
+        <section>
+          <h2 class="text-2xl font-bold text-slate-100 mb-4">Chapters</h2>
+          <div class="space-y-2">
+            {chapters.map((ch) => {
+              if (ch.data.type !== 'chapter') return null;
+              const chapterSlug = `chapter-${ch.data.chapterNumber}`;
+              return (
+                <a
+                  href={`/fiction/${novelId}/${chapterSlug}/`}
+                  class="flex items-center gap-4 p-4 rounded-lg bg-surface-800 border border-slate-700/50 hover:border-accent-500/50 transition-colors group"
+                >
+                  <span class="text-2xl font-bold text-slate-600 group-hover:text-accent-400 transition-colors w-12 text-center">
+                    {ch.data.chapterNumber}
+                  </span>
+                  <span class="text-slate-300 group-hover:text-slate-100 transition-colors">
+                    {ch.data.chapterTitle}
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      </>
+    )}
+  </div>
+</BaseLayout>

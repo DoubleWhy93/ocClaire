@@ -1,0 +1,36 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  title?: string;
+  world: string;
+  portrait?: string;
+  species?: string;
+}
+
+const { id, name, title, world, portrait, species } = Astro.props;
+---
+
+<a href={`/characters/${id}/`} class="block group card-hover">
+  <div class="rounded-xl overflow-hidden bg-surface-800 border border-slate-700/50">
+    <div class="aspect-[3/4] bg-surface-700 relative overflow-hidden">
+      {portrait ? (
+        <img src={portrait} alt={name} class="w-full h-full object-cover" />
+      ) : (
+        <div class="w-full h-full flex items-center justify-center text-5xl text-slate-600">
+          &#x2661;
+        </div>
+      )}
+      <div class="absolute inset-0 bg-gradient-to-t from-surface-800/90 via-transparent to-transparent" />
+    </div>
+    <div class="p-4">
+      <div class="flex items-center gap-2 text-xs text-slate-500">
+        {species && <span>{species}</span>}
+        <span>&middot;</span>
+        <span class="text-accent-400">{world}</span>
+      </div>
+      <h3 class="text-lg font-bold text-slate-100 mt-1 group-hover:text-accent-400 transition-colors">{name}</h3>
+      {title && <p class="text-sm text-slate-400">{title}</p>}
+    </div>
+  </div>
+</a>

@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChatWidget from '../../components/chat/ChatWidget';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const characters = await getCollection('characters');
+  return characters.map((character) => ({
+    params: { characterId: character.id },
+    props: { character },
+  }));
+}
+
+const { character } = Astro.props;
+const { Content } = await render(character);
+
+const worlds = await getCollection('worlds');
+const world = worlds.find((w) => w.id === character.data.world);
+
+// Load chat prompt if enabled
+let chatPrompt = { systemPrompt: '', model: 'gpt-4o-mini', temperature: 0.8, maxTokens: 1024 };
+if (character.data.chatEnabled && character.data.chatPromptFile) {
+  const prompts = await getCollection('prompts');
+  const prompt = prompts.find((p) => p.id === character.data.chatPromptFile);
+  if (prompt) {
+    chatPrompt = {
+      systemPrompt: prompt.body ?? '',
+      model: prompt.data.model,
+      temperature: prompt.data.temperature,
+      maxTokens: prompt.data.maxTokens,
+    };
+  }
+}
+---
+
+<BaseLayout title={`${character.data.name} — OC Showcase`}>
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8">
+      <!-- Portrait / sidebar -->
+      <div>
+        <div class="rounded-xl overflow-hidden bg-surface-800 border border-slate-700/50 sticky top-20">
+          <div class="aspect-[3/4] bg-surface-700">
+            {character.data.portrait ? (
+              <img src={character.data.portrait} alt={character.data.name} class="w-full h-full object-cover" />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center text-6xl text-slate-600">&#x2661;</div>
+            )}
+          </div>
+          <div class="p-4 space-y-3">
+            {character.data.species && (
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Species</span>
+                <span class="text-slate-300">{character.data.species}</span>
+              </div>
+            )}
+            {character.data.age && (
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Age</span>
+                <span class="text-slate-300">{character.data.age}</span>
+              </div>
+            )}
+            {character.data.role && (
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Role</span>
+                <span class="text-slate-300">{character.data.role}</span>
+              </div>
+            )}
+            {world && (
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">World</span>
+                <a href={`/worlds/${world.id}/`} class="text-accent-400 hover:underline">{world.data.name}</a>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div>
+        <div class="mb-6">
+          <h1 class="text-4xl font-bold text-slate-100">{character.data.name}</h1>
+          {character.data.title && (
+            <p class="text-lg text-accent-400 mt-1">{character.data.title}</p>
+          )}
+        </div>
+
+        {character.data.traits.length > 0 && (
+          <div class="flex flex-wrap gap-2 mb-6">
+            {character.data.traits.map((trait: string) => (
+              <span class="px-3 py-1 text-xs rounded-full bg-surface-800 text-slate-400 border border-slate-700">
+                {trait}
+              </span>
+            ))}
+          </div>
+        )}
+
+        <div class="prose-fiction">
+          <Content />
+        </div>
+
+        {character.data.chatEnabled && (
+          <div class="mt-12">
+            <ChatWidget
+              client:visible
+              characterId={character.id}
+              characterName={character.data.name}
+              systemPrompt={chatPrompt.systemPrompt}
+              model={chatPrompt.model}
+              temperature={chatPrompt.temperature}
+              maxTokens={chatPrompt.maxTokens}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

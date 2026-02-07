@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Lora", ui-serif, Georgia, serif;
+  --color-surface-900: #0f172a;
+  --color-surface-800: #1e293b;
+  --color-surface-700: #334155;
+  --color-accent-400: #818cf8;
+  --color-accent-500: #6366f1;
+  --color-accent-600: #4f46e5;
+}
+
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  @apply bg-surface-900 text-slate-200 font-sans antialiased;
+}
+
+.prose-fiction {
+  @apply font-serif max-w-prose mx-auto leading-relaxed text-slate-300;
+}
+
+.prose-fiction p {
+  @apply mb-4 text-lg;
+}
+
+.prose-fiction h2 {
+  @apply text-2xl font-bold text-slate-100 mt-8 mb-4;
+}
+
+.card-hover {
+  @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-accent-500/10;
+}

@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CharacterCard from '../../components/CharacterCard.astro';
+import { getCollection } from 'astro:content';
+
+const characters = (await getCollection('characters')).sort((a, b) => a.data.order - b.data.order);
+const worlds = await getCollection('worlds');
+
+const worldNames: Record<string, string> = {};
+for (const w of worlds) {
+  worldNames[w.id] = w.data.name;
+}
+
+const worldIds = [...new Set(characters.map((c) => c.data.world))];
+---
+
+<BaseLayout title="Characters — OC Showcase">
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-slate-100 mb-2">Characters</h1>
+    <p class="text-slate-400 mb-8">The people who bring these worlds to life.</p>
+
+    <!-- World filter tabs -->
+    {worldIds.length > 1 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        <span class="px-4 py-1.5 text-sm rounded-full bg-accent-500 text-white cursor-default">All</span>
+        {worldIds.map((wid) => (
+          <span class="px-4 py-1.5 text-sm rounded-full bg-surface-800 text-slate-400 border border-slate-700">
+            {worldNames[wid] || wid}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {characters.map((char) => (
+        <CharacterCard
+          id={char.id}
+          name={char.data.name}
+          title={char.data.title}
+          world={worldNames[char.data.world] || char.data.world}
+          portrait={char.data.portrait}
+          species={char.data.species}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

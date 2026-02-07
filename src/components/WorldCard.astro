@@ -1,0 +1,31 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  tagline: string;
+  genre: string;
+  thumbnail?: string;
+}
+
+const { id, name, tagline, genre, thumbnail } = Astro.props;
+---
+
+<a href={`/worlds/${id}/`} class="block group card-hover">
+  <div class="rounded-xl overflow-hidden bg-surface-800 border border-slate-700/50">
+    <div class="aspect-[16/9] bg-surface-700 relative overflow-hidden">
+      {thumbnail ? (
+        <img src={thumbnail} alt={name} class="w-full h-full object-cover" />
+      ) : (
+        <div class="w-full h-full flex items-center justify-center text-4xl text-slate-600">
+          &#x2726;
+        </div>
+      )}
+      <div class="absolute inset-0 bg-gradient-to-t from-surface-800/80 to-transparent" />
+    </div>
+    <div class="p-4">
+      <span class="text-xs font-medium text-accent-400 uppercase tracking-wider">{genre}</span>
+      <h3 class="text-lg font-bold text-slate-100 mt-1 group-hover:text-accent-400 transition-colors">{name}</h3>
+      <p class="text-sm text-slate-400 mt-1 line-clamp-2">{tagline}</p>
+    </div>
+  </div>
+</a>

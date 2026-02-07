@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:docs.astro.build)",
+      "Bash(npm create:*)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(npx astro:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(node -e:*)",
+      "Bash(pip install:*)",
+      "Bash(python -X utf8 -c:*)"
+    ]
+  }
+}

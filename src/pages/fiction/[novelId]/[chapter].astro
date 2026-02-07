@@ -1,0 +1,75 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ChapterNav from '../../../components/ChapterNav.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allFiction = await getCollection('fiction');
+  const chapters = allFiction.filter((f) => f.data.type === 'chapter');
+
+  return chapters.map((ch) => {
+    if (ch.data.type !== 'chapter') return { params: { novelId: '', chapter: '' }, props: {} };
+    const novelId = ch.data.novel;
+    const chapterSlug = `chapter-${ch.data.chapterNumber}`;
+
+    // Find sibling chapters for nav
+    const siblings = allFiction
+      .filter((f) => f.data.type === 'chapter' && f.data.novel === novelId)
+      .sort((a, b) => a.data.order - b.data.order);
+
+    const idx = siblings.findIndex((s) => s.id === ch.id);
+
+    const prev = idx > 0 ? siblings[idx - 1] : null;
+    const next = idx < siblings.length - 1 ? siblings[idx + 1] : null;
+
+    const toNavItem = (entry: typeof prev) => {
+      if (!entry || entry.data.type !== 'chapter') return null;
+      return {
+        number: entry.data.chapterNumber,
+        title: entry.data.chapterTitle,
+        slug: `chapter-${entry.data.chapterNumber}`,
+      };
+    };
+
+    // Find novel meta for title
+    const novelMeta = allFiction.find(
+      (f) => f.data.type === 'novel-meta' && f.id === `${novelId}/_meta`
+    );
+
+    return {
+      params: { novelId, chapter: chapterSlug },
+      props: {
+        chapter: ch,
+        novelId,
+        novelTitle: novelMeta?.data.type === 'novel-meta' ? novelMeta.data.novelTitle : novelId,
+        prevChapter: toNavItem(prev),
+        nextChapter: toNavItem(next),
+      },
+    };
+  });
+}
+
+const { chapter, novelId, novelTitle, prevChapter, nextChapter } = Astro.props as any;
+const { Content } = await render(chapter);
+---
+
+<BaseLayout title={`${chapter.data.chapterTitle} — ${novelTitle}`}>
+  <article class="max-w-3xl mx-auto px-4 py-12">
+    <div class="mb-8">
+      <a href={`/fiction/${novelId}/`} class="text-sm text-accent-400 hover:underline">&larr; {novelTitle}</a>
+      <h1 class="text-3xl font-bold text-slate-100 mt-3">
+        Chapter {chapter.data.chapterNumber}: {chapter.data.chapterTitle}
+      </h1>
+    </div>
+
+    <div class="prose-fiction">
+      <Content />
+    </div>
+
+    <ChapterNav
+      novelId={novelId}
+      prevChapter={prevChapter}
+      nextChapter={nextChapter}
+    />
+  </article>
+</BaseLayout>

@@ -1,0 +1,39 @@
+---
+interface Props {
+  novelId: string;
+  prevChapter?: { number: number; title: string; slug: string } | null;
+  nextChapter?: { number: number; title: string; slug: string } | null;
+}
+
+const { novelId, prevChapter, nextChapter } = Astro.props;
+---
+
+<nav class="flex items-center justify-between py-8 border-t border-slate-800 mt-12">
+  {prevChapter ? (
+    <a href={`/fiction/${novelId}/${prevChapter.slug}/`} class="group flex items-center gap-2 text-slate-400 hover:text-accent-400 transition-colors">
+      <span class="text-lg">&larr;</span>
+      <div>
+        <div class="text-xs text-slate-500">Previous</div>
+        <div class="text-sm font-medium">Ch. {prevChapter.number}: {prevChapter.title}</div>
+      </div>
+    </a>
+  ) : (
+    <div />
+  )}
+
+  <a href={`/fiction/${novelId}/`} class="text-sm text-slate-500 hover:text-accent-400 transition-colors">
+    All Chapters
+  </a>
+
+  {nextChapter ? (
+    <a href={`/fiction/${novelId}/${nextChapter.slug}/`} class="group flex items-center gap-2 text-slate-400 hover:text-accent-400 transition-colors text-right">
+      <div>
+        <div class="text-xs text-slate-500">Next</div>
+        <div class="text-sm font-medium">Ch. {nextChapter.number}: {nextChapter.title}</div>
+      </div>
+      <span class="text-lg">&rarr;</span>
+    </a>
+  ) : (
+    <div />
+  )}
+</nav>
