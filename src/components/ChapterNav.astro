@@ -13,8 +13,8 @@ const { novelId, prevChapter, nextChapter } = Astro.props;
     <a href={`/fiction/${novelId}/${prevChapter.slug}/`} class="group flex items-center gap-2 text-slate-400 hover:text-accent-400 transition-colors">
       <span class="text-lg">&larr;</span>
       <div>
-        <div class="text-xs text-slate-500">Previous</div>
-        <div class="text-sm font-medium">Ch. {prevChapter.number}: {prevChapter.title}</div>
+        <div class="text-xs text-slate-500">上一章</div>
+        <div class="text-sm font-medium">第 {prevChapter.number} 章：{prevChapter.title}</div>
       </div>
     </a>
   ) : (
@@ -22,14 +22,14 @@ const { novelId, prevChapter, nextChapter } = Astro.props;
   )}
 
   <a href={`/fiction/${novelId}/`} class="text-sm text-slate-500 hover:text-accent-400 transition-colors">
-    All Chapters
+    所有章节
   </a>
 
   {nextChapter ? (
     <a href={`/fiction/${novelId}/${nextChapter.slug}/`} class="group flex items-center gap-2 text-slate-400 hover:text-accent-400 transition-colors text-right">
       <div>
-        <div class="text-xs text-slate-500">Next</div>
-        <div class="text-sm font-medium">Ch. {nextChapter.number}: {nextChapter.title}</div>
+        <div class="text-xs text-slate-500">下一章</div>
+        <div class="text-sm font-medium">第 {nextChapter.number} 章：{nextChapter.title}</div>
       </div>
       <span class="text-lg">&rarr;</span>
     </a>

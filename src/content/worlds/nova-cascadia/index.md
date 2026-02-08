@@ -1,14 +1,30 @@
 ---
-name: Nova Cascadia
-tagline: Cyberpunk megacity where consciousness can be uploaded, downloaded, and stolen
-description: Near-future cyberpunk setting exploring digital identity
-genre: Cyberpunk
-themes: [identity, technology, consciousness, corporate power]
+name: 夜幕王座
+tagline: 血族在现代社会的阴影之下建立了庞大而隐秘的黑暗帝国
+description: 现代都市奇幻设定，血族隐藏于人类文明之中
+genre: 都市奇幻 / 吸血鬼
+themes: [权力斗争, 派系冲突, 永生诅咒, 爱恨纠葛, 传统与现代]
 order: 2
 ---
 
-Nova Cascadia sprawls along what was once the Pacific Northwest, a megacity of neon-drenched towers and rain-slicked streets. After the Consciousness Breakthrough of 2089, the human mind became just another data format — uploadable, downloadable, editable.
+在现代社会的表象之下，血族（吸血鬼）已经隐藏了数千年。他们建立了一个庞大而隐秘的黑暗帝国，分为四大派系，围绕"传统统治"与"融入人类"展开激烈斗争。
 
-The wealthy live twice: once in flesh, once in the Lattice, a digital paradise maintained by Meridian Corp. The poor sell fragments of their memories to scrape by, haunted by gaps they can't explain. Between these extremes, a thriving grey market trades in consciousness modifications — borrowed skills, suppressed traumas, stolen experiences.
+## 四大派系
 
-The city's districts tell its story: the gleaming corporate Spires above, the bustling Midlevels where most people live and work, and the Undergrid below, where rogue netrunners and consciousness hackers operate beyond Meridian's reach. Tensions are rising. Rumors spread of a consciousness virus that could unravel the Lattice itself.
+**夜隐议会（Nocturne Council）** — 保守派，维护血族传统，严格遵守古老律法，认为血族应隐秘统治世界。主要控制欧洲，拥有最庞大的地下势力。代表人物：黑翼亲王拉斐尔、血誓亲王马尔库斯、鬼夜亲王浅间莲司。
+
+**永夜盟约（Eternal Concord）** — 融入派，倡导血族与人类共存，利用现代科技、商业、政治手段渗透世界。许多血族企业家、明星、政客皆属于此派，主导人工血液技术。代表人物：赤月亲王阿德里安诺、黑金亲王、白夜亲王。
+
+**血猎同盟（Crimson Hunters）** — 激进派，反对血族的没落，认为血族应重回统治者地位。经常制造恐怖袭击，是最危险的血族组织。代表人物：猩红亲王维托里乌斯、炎狱亲王。
+
+**影之教团（Order of the Shade）** — 中立派，以学者、预言家、隐士为主，研究血族历史、预言、命运，游离于各派系之间。代表人物：天权亲王苍岚、沉眠亲王。
+
+## 血族社会
+
+血族社会严格遵循血统与年龄决定的阶级制度：始祖级血族（如该隐、莉莉丝）、血族亲王（1000年以上）、古老血族（500年以上）、高阶血族（200年以上）、成长期血族（100年以上）、低阶血族（10-100年）、新生血族（刚被转化）。
+
+血族拥有超凡体质、不死之躯、精神控制、血统天赋等能力，但也有阳光、银器、鲜血依赖等弱点。在现代社会中，血族渗透科技、娱乐、金融、政界等领域，通过认知干扰和媒体操控掩盖存在。
+
+## 其他异族
+
+除血族外，世界还存在狼人（亚伯之血的诅咒，月夜变身）、幽灵（未安息的亡灵）、妖精（自然信仰的化身）等异族，与血族形成复杂制衡。人类政府、教会与秘密组织也在暗中对抗或利用超自然势力。

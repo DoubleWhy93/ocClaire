@@ -49,25 +49,25 @@ if (character.data.chatEnabled && character.data.chatPromptFile) {
           <div class="p-4 space-y-3">
             {character.data.species && (
               <div class="flex justify-between text-sm">
-                <span class="text-slate-500">Species</span>
+                <span class="text-slate-500">种族</span>
                 <span class="text-slate-300">{character.data.species}</span>
               </div>
             )}
             {character.data.age && (
               <div class="flex justify-between text-sm">
-                <span class="text-slate-500">Age</span>
+                <span class="text-slate-500">年龄</span>
                 <span class="text-slate-300">{character.data.age}</span>
               </div>
             )}
             {character.data.role && (
               <div class="flex justify-between text-sm">
-                <span class="text-slate-500">Role</span>
+                <span class="text-slate-500">角色</span>
                 <span class="text-slate-300">{character.data.role}</span>
               </div>
             )}
             {world && (
               <div class="flex justify-between text-sm">
-                <span class="text-slate-500">World</span>
+                <span class="text-slate-500">世界</span>
                 <a href={`/worlds/${world.id}/`} class="text-accent-400 hover:underline">{world.data.name}</a>
               </div>
             )}

@@ -38,7 +38,12 @@ export default function ChatWidget({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showKeyModal, setShowKeyModal] = useState(false);
-  const [config, setConfig] = useState<Partial<ChatConfig>>(getStoredConfig);
+  const [config, setConfig] = useState<Partial<ChatConfig>>({});
+
+  // Load stored config after mount to avoid SSR hydration mismatch
+  useEffect(() => {
+    setConfig(getStoredConfig());
+  }, []);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const hasKey = !!config.apiKey;

@@ -6,10 +6,10 @@ import { getCollection } from 'astro:content';
 const worlds = (await getCollection('worlds')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="Worlds — OC Showcase">
+<BaseLayout title="世界 — 原创角色展示">
   <section class="max-w-6xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold text-slate-100 mb-2">Worlds</h1>
-    <p class="text-slate-400 mb-8">Every story begins with a world.</p>
+    <h1 class="text-4xl font-bold text-slate-100 mb-2">世界</h1>
+    <p class="text-slate-400 mb-8">每个故事都始于一个世界。</p>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {worlds.map((world) => (
         <WorldCard

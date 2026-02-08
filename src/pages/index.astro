@@ -6,22 +6,22 @@ import { getCollection } from 'astro:content';
 const worlds = (await getCollection('worlds')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="OC Showcase — Worlds, Characters & Fiction">
+<BaseLayout title="原创角色展示 — 世界、角色与小说">
   <!-- Hero -->
   <section class="relative py-24 px-4">
     <div class="max-w-4xl mx-auto text-center">
       <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-accent-400 to-purple-400 bg-clip-text text-transparent">
-        OC World Showcase
+        原创世界展示
       </h1>
       <p class="text-xl text-slate-400 mt-6 max-w-2xl mx-auto">
-        Explore original worlds, meet their characters, read their stories, and chat with them.
+        探索原创世界，认识其中的角色，阅读他们的故事，并与他们聊天。
       </p>
       <div class="flex gap-4 justify-center mt-8">
         <a href="/worlds/" class="px-6 py-3 bg-accent-500 hover:bg-accent-600 text-white rounded-lg font-medium transition-colors">
-          Explore Worlds
+          探索世界
         </a>
         <a href="/characters/" class="px-6 py-3 bg-surface-800 hover:bg-surface-700 text-slate-300 rounded-lg font-medium border border-slate-700 transition-colors">
-          Meet Characters
+          认识角色
         </a>
       </div>
     </div>
@@ -30,7 +30,7 @@ const worlds = (await getCollection('worlds')).sort((a, b) => a.data.order - b.d
   <!-- Featured Worlds -->
   {worlds.length > 0 && (
     <section class="max-w-6xl mx-auto px-4 pb-16">
-      <h2 class="text-2xl font-bold text-slate-100 mb-6">Featured Worlds</h2>
+      <h2 class="text-2xl font-bold text-slate-100 mb-6">精选世界</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {worlds.map((world) => (
           <WorldCard
