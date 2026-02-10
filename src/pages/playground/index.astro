@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PlaygroundWidget from '../../components/playground/PlaygroundWidget';
+import { getCollection } from 'astro:content';
+
+const characters = await getCollection('characters');
+const prompts = await getCollection('prompts');
+
+// Load base rules
+const baseRules = prompts.find((p) => p.id === '_base-rules');
+const baseRulesContent = baseRules?.body ?? '';
+
+// Build playground character data for chat-enabled characters
+const playgroundCharacters = characters
+  .filter((c) => c.data.chatEnabled && c.data.chatPromptFile)
+  .map((c) => {
+    const prompt = prompts.find((p) => p.id === c.data.chatPromptFile);
+    return {
+      id: c.id,
+      name: c.data.name,
+      species: c.data.species,
+      traits: c.data.traits,
+      portrait: c.data.portrait,
+      systemPrompt: baseRulesContent + (prompt?.body ?? ''),
+      model: prompt?.data.model ?? 'gpt-4o-mini',
+      temperature: prompt?.data.temperature ?? 0.8,
+      maxTokens: prompt?.data.maxTokens ?? 1024,
+    };
+  })
+  .sort((a, b) => {
+    const ca = characters.find((c) => c.id === a.id)!;
+    const cb = characters.find((c) => c.id === b.id)!;
+    return ca.data.order - cb.data.order;
+  });
+---
+
+<BaseLayout title="互动场 — OC Showcase">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-slate-100">互动场</h1>
+      <p class="text-slate-400 mt-2">选择多个角色，设定场景，看他们如何交流互动。</p>
+    </div>
+
+    <PlaygroundWidget
+      client:visible
+      characters={playgroundCharacters}
+    />
+  </div>
+</BaseLayout>

@@ -2,7 +2,7 @@
 name: 拉斐尔·诺克提瓦瑞斯
 world: nova-cascadia
 title: 黑翼亲王
-portrait:
+portrait: /images/characters/raphael-noctivaris-portrait.jpeg
 age: "2000+"
 species: 血族（纯血贵族）
 role: 主角

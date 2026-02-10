@@ -17,14 +17,16 @@ const { Content } = await render(character);
 const worlds = await getCollection('worlds');
 const world = worlds.find((w) => w.id === character.data.world);
 
-// Load chat prompt if enabled
+// Load base rules and chat prompt if enabled
 let chatPrompt = { systemPrompt: '', model: 'gpt-4o-mini', temperature: 0.8, maxTokens: 1024 };
 if (character.data.chatEnabled && character.data.chatPromptFile) {
   const prompts = await getCollection('prompts');
+  const baseRules = prompts.find((p) => p.id === '_base-rules');
   const prompt = prompts.find((p) => p.id === character.data.chatPromptFile);
   if (prompt) {
+    const baseRulesContent = baseRules?.body ?? '';
     chatPrompt = {
-      systemPrompt: prompt.body ?? '',
+      systemPrompt: baseRulesContent + (prompt.body ?? ''),
       model: prompt.data.model,
       temperature: prompt.data.temperature,
       maxTokens: prompt.data.maxTokens,

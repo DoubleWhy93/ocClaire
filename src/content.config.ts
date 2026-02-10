@@ -57,7 +57,7 @@ const fiction = defineCollection({
 const prompts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/prompts' }),
   schema: z.object({
-    characterId: z.string(),
+    characterId: z.string().nullable().optional(),
     model: z.string().default('gpt-4o-mini'),
     temperature: z.number().default(0.8),
     maxTokens: z.number().default(1024),

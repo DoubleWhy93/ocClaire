@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GameWidget from '../../components/playground/game/GameWidget';
+import { getCollection } from 'astro:content';
+
+const characters = await getCollection('characters');
+const prompts = await getCollection('prompts');
+
+// Load base rules and game rules
+const baseRules = prompts.find((p) => p.id === '_base-rules');
+const baseRulesContent = baseRules?.body ?? '';
+const gameRules = prompts.find((p) => p.id === '_game-rules');
+const gameRulesContent = gameRules?.body ?? '';
+
+// Build game character data for chat-enabled characters
+const gameCharacters = characters
+  .filter((c) => c.data.chatEnabled && c.data.chatPromptFile)
+  .map((c) => {
+    const prompt = prompts.find((p) => p.id === c.data.chatPromptFile);
+    return {
+      id: c.id,
+      name: c.data.name,
+      species: c.data.species,
+      traits: c.data.traits,
+      portrait: c.data.portrait,
+      systemPrompt: baseRulesContent + (prompt?.body ?? ''),
+      model: prompt?.data.model ?? 'gpt-4o-mini',
+      temperature: prompt?.data.temperature ?? 0.8,
+      maxTokens: prompt?.data.maxTokens ?? 1024,
+    };
+  })
+  .sort((a, b) => {
+    const ca = characters.find((c) => c.id === a.id)!;
+    const cb = characters.find((c) => c.id === b.id)!;
+    return ca.data.order - cb.data.order;
+  });
+---
+
+<BaseLayout title="游戏模式 — OC Showcase">
+  <div class="max-w-6xl mx-auto px-4 py-12">
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-slate-100">游戏模式</h1>
+      <p class="text-slate-400 mt-2">桌游RPG风格冒险，AI Game Master主持，掷骰决定命运。</p>
+    </div>
+
+    <GameWidget
+      client:visible
+      characters={gameCharacters}
+      gameRulesContent={gameRulesContent}
+    />
+  </div>
+</BaseLayout>

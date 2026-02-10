@@ -7,7 +7,8 @@ age: "1500+"
 species: 血族（后天转化）
 role: 主角
 traits: [剑道至上, 极端克制, 寡言直率, 感情极端]
-chatEnabled: false
+chatEnabled: true
+chatPromptFile: asama-renshi
 order: 4
 ---
 
